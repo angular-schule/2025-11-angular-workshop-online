@@ -36,4 +36,27 @@ describe('DashboardPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('component.doRateUp() calls helper.rateUp()', () => {
+    // Arrange
+    // BRH anfordern, das ist eigentlich unser Mock!
+    const helper = TestBed.inject(BookRatingHelper);
+
+     // Testbuch
+    const testBook = { isbn: '123' } as Book; // Type Assertion, bitte vorsichtig verwenden!
+
+
+    // Objekt überwachen
+    // spyOn(helper, 'rateUp').and.callFake(b => b);
+    // spyOn(helper, 'rateUp').and.returnValue(testBook);
+    spyOn(helper, 'rateUp').and.callThrough();
+
+
+    // Act
+    component.doRateUp(testBook);
+
+    // Assert
+    // prüfen, ob helper.rateUp() mit Argument testBook aufgerufen wurde
+    expect(helper.rateUp).toHaveBeenCalledOnceWith(testBook);
+  });
 });
