@@ -10,6 +10,7 @@ import { BookCard } from "../book-card/book-card";
 })
 export class DashboardPage {
   protected readonly books = signal<Book[]>([]);
+  // protected readonly booksCount = computed(() => this.books().length);
 
   constructor() {
     this.books.set([
