@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RatingDisplay } from './rating-display';
+import { inputBinding, provideZonelessChangeDetection, signal } from '@angular/core';
 
 describe('RatingDisplay', () => {
   let component: RatingDisplay;
@@ -8,11 +9,19 @@ describe('RatingDisplay', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RatingDisplay]
+      imports: [RatingDisplay],
+      providers: [provideZonelessChangeDetection()]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RatingDisplay);
+    const ratingValue = signal(4);
+
+    fixture = TestBed.createComponent(RatingDisplay, {
+      bindings: [
+        inputBinding('value', ratingValue),
+        // inputBinding('value', () => 4)
+      ]
+    });
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
