@@ -4,6 +4,8 @@ import { DashboardPage } from './dashboard-page';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { Book } from '../shared/book';
 import { BookRatingHelper } from '../shared/book-rating-helper';
+import { of } from 'rxjs';
+import { BookStore } from '../shared/book-store';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -16,6 +18,10 @@ describe('DashboardPage', () => {
       rateDown: (b: Book) => b,
     };
 
+    const storeMock = {
+      getAll: () => of([])
+    };
+
     await TestBed.configureTestingModule({
       imports: [DashboardPage],
       providers: [
@@ -23,7 +29,8 @@ describe('DashboardPage', () => {
         // RatingHelper ersetzen:
         // Immer wenn jemand BRH anfordert, wird stattdessen
         // unser ratingHelperMock ausgeliefert
-        { provide: BookRatingHelper, useValue: ratingHelperMock }
+        { provide: BookRatingHelper, useValue: ratingHelperMock },
+        { provide: BookStore, useValue: storeMock }
       ]
     })
     .compileComponents();
