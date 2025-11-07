@@ -12,16 +12,17 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './dashboard-page.scss'
 })
 export class DashboardPage {
-  protected readonly books = signal<Book[]>([]);
-  // protected readonly booksCount = computed(() => this.books().length);
-
   #ratingHelper = inject(BookRatingHelper);
   #store = inject(BookStore);
 
+  protected readonly books = this.#store.getAllResource();
+  // protected readonly booksCount = computed(() => this.books().length);
+
+
   constructor() {
-    this.#store.getAll().subscribe(receivedBooks => {
+    /*this.#store.getAll().subscribe(receivedBooks => {
       this.books.set(receivedBooks);
-    });
+    });*/
   }
 
   doRateUp(book: Book) {

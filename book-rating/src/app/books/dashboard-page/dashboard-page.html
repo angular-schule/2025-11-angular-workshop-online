@@ -1,9 +1,18 @@
 <p>
   <strong>Anzahl Bücher:</strong>
-  {{ books().length }}
+  {{ books.value().length }}
 </p>
 
-@for (b of books(); track b.isbn) {
+<p>
+  <strong>Status Resource:</strong>
+  {{ books.status() }}
+</p>
+
+<p>
+  <button type="button" class="btn btn-green" (click)="books.reload()">Reload</button>
+</p>
+
+@for (b of books.value(); track b.isbn) {
   <app-book-card
     [book]="b"
     [minRating]="1"

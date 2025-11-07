@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Book } from './book';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -13,6 +13,13 @@ export class BookStore {
   getAll(): Observable<Book[]> {
     return this.#http.get<Book[]>(this.#apiURL + '/books');
     // this.#http.get(`${this.#apiURL}/books`);
+  }
+
+  getAllResource(): HttpResourceRef<Book[]> {
+    return httpResource<Book[]>(
+      () => this.#apiURL + '/books',
+      { defaultValue: [] }
+    );
   }
 
   getSingle(isbn: string): Observable<Book> {
