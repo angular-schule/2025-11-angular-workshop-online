@@ -1,0 +1,12 @@
+<p>ISBN: {{ isbn() }}</p>
+
+@if (book.hasValue()) {
+  @let b = book.value();
+  <h2>{{ b.title }}</h2>
+  <p>{{ b.description }}</p>
+}
+
+<hr>
+
+<a routerLink="/books">Zum Dashboard</a><br>
+<a routerLink="/books/details/9783864909467">Zum Angular-Buch</a>
