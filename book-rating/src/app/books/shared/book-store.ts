@@ -37,4 +37,8 @@ export class BookStore {
   search(term: string): Observable<Book[]> {
     return this.#http.get<Book[]>(`${this.#apiURL}/books/search/${term}`);
   }
+
+  delete(isbn: string): Observable<unknown> {
+    return this.#http.delete(`${this.#apiURL}/books/${isbn}`);
+  }
 }

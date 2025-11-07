@@ -50,4 +50,18 @@ export class DashboardPage {
 
     });
   }
+
+  deleteBook(book: Book) {
+    if (!confirm(`Buch "${book.title}" wirklich löschen?`)) {
+      return;
+    }
+
+    this.#store.delete(book.isbn).subscribe(() => {
+      // Liste neuladen
+      // this.books.reload();
+
+      // oder: Liste lokal filtern
+      this.books.update(currentList => currentList.filter(b => b.isbn !== book.isbn));
+    });
+  }
 }
