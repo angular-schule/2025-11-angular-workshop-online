@@ -5,6 +5,13 @@ import { Book } from '../shared/book';
 import { BookStore } from '../shared/book-store';
 import { Router } from '@angular/router';
 
+const isbnValidator = Validators.compose([
+  Validators.required,
+  Validators.minLength(13),
+  Validators.maxLength(13),
+  Validators.pattern(/^[0-9]*$/)
+]);
+
 @Component({
   selector: 'app-book-create-page',
   imports: [ReactiveFormsModule, JsonPipe],
