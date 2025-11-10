@@ -1,28 +1,31 @@
-<form>
+@let c = bookForm.controls;
+<form [formGroup]="bookForm">
   <div class="form-group">
     <label for="isbnInput">ISBN</label>
-    <input type="text" id="isbnInput" class="form-control" />
+    <input type="text" id="isbnInput" class="form-control" [formControl]="c.isbn" />
   </div>
 
   <div class="form-group">
     <label for="titleInput">Title</label>
-    <input type="text" id="titleInput" class="form-control" />
+    <input type="text" id="titleInput" class="form-control" [formControl]="c.title" />
   </div>
 
   <div class="form-group">
     <label for="descInput">Description</label>
-    <textarea id="titleInput" class="form-control"></textarea>
+    <textarea id="descInput" class="form-control" [formControl]="c.description"></textarea>
   </div>
 
   <div class="form-group">
     <label for="priceInput">Price</label>
-    <input type="number" id="priceInput" class="form-control" />
+    <input type="number" id="priceInput" class="form-control" [formControl]="c.price" />
   </div>
 
   <div class="form-group">
     <label for="ratingInput">Rating</label>
-    <input type="number" id="ratingInput" class="form-control" />
+    <input type="number" id="ratingInput" class="form-control" [formControl]="c.rating" />
   </div>
 
   <button type="submit" class="btn btn-green">Submit</button>
 </form>
+
+<pre>{{ bookForm.value | json }}</pre>
