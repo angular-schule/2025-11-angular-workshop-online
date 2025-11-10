@@ -2,9 +2,13 @@ import { Routes } from "@angular/router";
 import { DashboardPage } from "./dashboard-page/dashboard-page";
 import { BookDetailsPage } from "./book-details-page/book-details-page";
 import { BookDetailsResourcePage } from "./book-details-resource-page/book-details-resource-page";
+import { BookCreatePage } from "./book-create-page/book-create-page";
+import { BookSearchPage } from "./book-search-page/book-search-page";
 
 export const booksRoutes: Routes = [
   { path: '', component: DashboardPage, title: 'Dashboard' },
+  { path: 'create', component: BookCreatePage, title: 'Buch erstellen' },
+  { path: 'search', component: BookSearchPage, title: 'Suche' },
   { path: ':isbn', component: BookDetailsPage, title: 'Details' },
-  { path: 'details/:isbn', component: BookDetailsResourcePage, title: 'Details' }
+  { path: 'details/:isbn', component: BookDetailsResourcePage, title: 'Details' },
 ];
