@@ -39,6 +39,19 @@
     <input type="number" id="ratingInput" class="form-control" [formControl]="c.rating" />
   </div>
 
+  <fieldset class="form-group">
+    <label>Authors</label>
+    <button type="button" class="btn btn-primary" (click)="addAuthorControl()">Add Author</button>
+
+    @for (authorControl of c.authors.controls; track $index) {
+      <input class="form-control" type="text"
+        [aria-label]="`Author ${$index + 1}`"
+        [placeholder]="`Author ${$index + 1}`"
+        [formControl]="authorControl" />
+      <button type="button" class="btn btn-danger btn-sm mb-2" (click)="removeAuthorControl($index)">Remove author</button>
+    }
+  </fieldset>
+
   <button type="submit" class="btn btn-green" [disabled]="bookForm.invalid">Submit</button>
 </form>
 

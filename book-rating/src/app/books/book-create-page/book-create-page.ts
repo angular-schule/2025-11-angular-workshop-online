@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Book } from '../shared/book';
 import { BookStore } from '../shared/book-store';
 import { Router } from '@angular/router';
@@ -51,7 +51,22 @@ export class BookCreatePage {
         Validators.max(5),
       ]
     }),
+    authors: new FormArray([
+      new FormControl('', { nonNullable: true }),
+      new FormControl('', { nonNullable: true }),
+      new FormControl('', { nonNullable: true }),
+    ])
   });
+
+  addAuthorControl() {
+    this.bookForm.controls.authors.push(
+      new FormControl('', { nonNullable: true })
+    );
+  }
+
+  removeAuthorControl(index: number) {
+    this.bookForm.controls.authors.removeAt(index);
+  }
 
   isInvalid(control: FormControl): boolean | null {
     if (control.untouched) {
@@ -70,7 +85,12 @@ export class BookCreatePage {
   }
 
   submitForm() {
-    const newBook: Book = this.bookForm.getRawValue();
+    const newBook: Book = {
+      ...this.bookForm.getRawValue(),
+      authors: this.bookForm.controls.authors.value.filter(a => a)
+    };
+
+    console.log(newBook);
 
     this.#store.create(newBook).subscribe(createdBook => {
       // SUCCESS!
@@ -85,9 +105,15 @@ TODO:
   - "Die ISBN ist ungültig"
   - "Die ISBN ist zu kurz"
 - Submit verhindern, wenn ungültig
-- Autoren erfassen
 - Formular abschicken
-  - zum Server schicken (POST)
-  - wegnavigieren zur Detailseite
+- zum Server schicken (POST)
+- wegnavigieren zur Detailseite
 - (ISBN auf Existenz prüfen)
+
+- Autoren erfassen
+  - Interface Book erweitern (authors)
+  - FormArray
+  - für jeden Autor ein Textfeld (@for über Controls aus dem FormArray)
+  - Button für "Add Author"
+  - (Button "Remove Author")
 */
