@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Book } from '../shared/book';
 import { BookStore } from '../shared/book-store';
 import { Router } from '@angular/router';
@@ -14,6 +14,16 @@ import { Router } from '@angular/router';
 export class BookCreatePage {
   #store = inject(BookStore);
   #router = inject(Router);
+  /*#fb = inject(NonNullableFormBuilder);
+
+  bf2 = this.#fb.group({
+    isbn: ['', [
+      Validators.required,
+      Validators.minLength(13),
+      Validators.maxLength(13),
+      Validators.pattern(/^[0-9]*$/)]
+    ]
+  })*/
 
   protected readonly bookForm = new FormGroup({
     isbn: new FormControl('', {
