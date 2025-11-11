@@ -16,22 +16,21 @@ export class ExerciseUnsubscribe implements OnDestroy {
    * Öffne die Browser-Console: Dort siehst Du den Output eines Observables, das jede Sekunde einen Wert generiert.
    * Navigiere zurück auf die Startseite und beobachte die Console:
    * Die Subscription läuft weiter. Wir haben einen klassischen Memory Leak erzeugt ...
-   * 
+   *
    * Sorge dafür, dass die Subscription in der Methode ngOnDestroy() beendet wird!
    * Sie wird beim Buttonklick und beim Wegnavigieren ausgelöst.
-   * 
+   *
    * Es gibt noch weitere Wege, das Problem zu lösen ...
    */
+  #sub: Subscription;
+
   constructor() {
     const interval$ = timer(0, 1000);
 
-    interval$.pipe(
+    this.#sub = interval$.pipe(
 
-      /******************************/
 
       
-      /******************************/
-
     ).subscribe({
       next: e => this.log(e),
       error: err => this.log('❌ ERROR: ' + err),
@@ -40,6 +39,7 @@ export class ExerciseUnsubscribe implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.#sub.unsubscribe();
   }
 
   log(msg: unknown) {
