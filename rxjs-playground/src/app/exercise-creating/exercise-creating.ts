@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber, OperatorFunction, pipe } from 'rxjs';
+import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber, OperatorFunction, pipe, take } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 
@@ -21,6 +21,25 @@ export class ExerciseCreating {
      * Zum Abonnieren kannst du einen (partiellen) Observer oder ein einzelnes next-Callback verwenden.
      * Du kannst die Methode this.log() verwenden, um eine Ausgabe in der schwarzen Box im Browser zu erzeugen.
      */
+
+    /******************************/
+
+
+    /**** HAUSAUFGABE */
+    // Erstelle ein Observable, das die Elemente eines Arrays in einem Intervall ausgibt.
+    // Eingabe: ['A', 'B', 'C', 'D']
+    // Abstand: 1000 ms
+    // Ergebnis: ---A---B---C---D|
+
+    function delayedFromArray<T>(arr: T[], delayMs: number): Observable<T> {
+      return interval(delayMs).pipe(
+        take(arr.length),
+        map(i => arr[i])
+      );
+    }
+
+    const delayed$ = delayedFromArray(['A', 'B', 'C', 'D'], 1000);
+
 
     /******************************/
 
@@ -63,12 +82,10 @@ export class ExerciseCreating {
       map(e => e * 3),
       filter(e => e % 2 === 0),
       toString()
-    ).subscribe({
+    )/*.subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
-    });
-
-
+    });*/
 
 
     /******************************/
