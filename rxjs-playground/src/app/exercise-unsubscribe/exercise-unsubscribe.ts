@@ -37,6 +37,12 @@ export class ExerciseUnsubscribe implements OnDestroy {
       error: err => this.log('❌ ERROR: ' + err),
       complete: () => this.log('✅ COMPLETE')
     });
+
+    // 1. toSignal
+    // 2. AsyncPipe
+    // 3. takeUntilDestroyed
+    // 4. takeUntil
+    // 5. unsubscribe()
   }
 
   ngOnDestroy() {
