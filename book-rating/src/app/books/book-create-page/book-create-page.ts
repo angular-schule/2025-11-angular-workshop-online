@@ -111,7 +111,7 @@ export class BookCreatePage {
 
     this.#store.create(newBook).subscribe(createdBook => {
       // SUCCESS!
-      this.#router.navigate(['/books', 'details', createdBook]);
+      this.#router.navigate(['/books', 'details', createdBook.isbn]);
     });
   }
 }
