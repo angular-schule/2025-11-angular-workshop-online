@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber } from 'rxjs';
+import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Observer, Subscriber, OperatorFunction, pipe } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 
@@ -33,13 +33,40 @@ export class ExerciseCreating {
     // timer(3000, 1000)     // ---------0---1---2---3---4 ...
     // timer(0, 1000)        // 0---1---2---3---4 ...
 
+
+    function toString(): OperatorFunction<number, string> {
+      return (source$) => {
+        return new Observable<string>(sub => {
+          const subscription = source$.subscribe({
+            next: e => sub.next('X ' + e.toString()),
+            error: e => sub.error(e),
+            complete: () => sub.complete()
+          });
+
+          // Teardown Logic
+          return () => {
+            subscription.unsubscribe();
+          }
+        })
+      }
+    }
+
+    function toString2(): OperatorFunction<number, string> {
+      return pipe(
+        map(num => 'X ' + num.toString()),
+        // filter()
+      )
+    }
+
+
     timer(0, 1000).pipe(
       map(e => e * 3),
       filter(e => e % 2 === 0),
+      toString()
     ).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
-    })
+    });
 
 
 
