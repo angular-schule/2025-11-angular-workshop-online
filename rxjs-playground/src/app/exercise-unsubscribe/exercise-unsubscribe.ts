@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject, Injector, OnDestroy } from '@angular/core';
 import { Subject, ReplaySubject, timer, Subscription, takeWhile, takeUntil } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -22,13 +22,16 @@ export class ExerciseUnsubscribe implements OnDestroy {
    *
    * Es gibt noch weitere Wege, das Problem zu lösen ...
    */
-  #destroy$ = new Subject<void>();
+
+  // #destroy$ = new Subject<void>()
+  #dref = inject(DestroyRef);
 
   constructor() {
     const interval$ = timer(0, 1000);
 
     interval$.pipe(
-      takeUntil(this.#destroy$)
+      // takeUntil(this.#destroy$)
+      takeUntilDestroyed()
     ).subscribe({
       next: e => this.log(e),
       error: err => this.log('❌ ERROR: ' + err),
@@ -37,8 +40,19 @@ export class ExerciseUnsubscribe implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.#destroy$.next();
+    // this.#destroy$.next();
   }
+
+  /*foo() {
+    timer(0, 1000).pipe(
+      // takeUntil(this.#destroy$)
+      takeUntilDestroyed(this.#dref)
+    ).subscribe({
+      next: e => this.log(e),
+      error: err => this.log('❌ ERROR: ' + err),
+      complete: () => this.log('✅ COMPLETE')
+    });
+  }*/
 
   log(msg: unknown) {
     console.log(msg);
