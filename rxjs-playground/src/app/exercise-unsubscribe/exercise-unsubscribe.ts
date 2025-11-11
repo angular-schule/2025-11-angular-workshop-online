@@ -22,15 +22,13 @@ export class ExerciseUnsubscribe implements OnDestroy {
    *
    * Es gibt noch weitere Wege, das Problem zu lösen ...
    */
-  #sub: Subscription;
+  #destroy$ = new Subject<void>();
 
   constructor() {
     const interval$ = timer(0, 1000);
 
-    this.#sub = interval$.pipe(
-
-
-      
+    interval$.pipe(
+      takeUntil(this.#destroy$)
     ).subscribe({
       next: e => this.log(e),
       error: err => this.log('❌ ERROR: ' + err),
@@ -39,7 +37,7 @@ export class ExerciseUnsubscribe implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.#sub.unsubscribe();
+    this.#destroy$.next();
   }
 
   log(msg: unknown) {
