@@ -23,7 +23,18 @@ export class ExerciseGamescore {
 
     /******************************/
 
-    
+    this.score$.pipe(
+      scan((score, points) => score + points, 0)
+    ).subscribe(cs => {
+      this.currentScore.set(cs);
+    });
+
+    this.score$.pipe(
+      reduce((score, points) => score + points, 0)
+    ).subscribe(fs => {
+      this.finalScore.set(fs);
+    });
+
     /******************************/
 
     this.score$.subscribe({
