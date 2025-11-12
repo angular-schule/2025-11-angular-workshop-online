@@ -1,1 +1,39 @@
-<p>book-create-signal-page works!</p>
+<form (submit)="submitForm()">
+  <div>
+    <label>ISBN</label>
+    <input type="text" [field]="bookForm.isbn" [class.invalid]="bookForm.isbn().invalid()">
+    <div class="feedback-error">
+      {{ bookForm.isbn().errors() | json }}
+    </div>
+  </div>
+  <div>
+    <label>Title</label>
+    <input type="text" [field]="bookForm.title">
+  </div>
+  <div>
+    <label>Description</label>
+    <textarea [field]="bookForm.description"></textarea>
+  </div>
+  <div>
+    <label>Rating</label>
+    <input type="number" [field]="bookForm.rating">
+  </div>
+  <div>
+    <label>Price</label>
+    <input type="number" [field]="bookForm.price">
+  </div>
+
+  <fieldset>
+    <label>Authors</label>
+    <button type="button" (click)="addAuthorField()">Add Author</button>
+    @for (authorField of bookForm.authors; track $index) {
+      <input type="text" [field]="authorField">
+    }
+  </fieldset>
+
+  <button type="submit">Submit</button>
+
+</form>
+
+
+<pre>{{ bookForm().value() | json }}</pre>
