@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Subject, ReplaySubject, scan, reduce } from 'rxjs';
+import { Subject, ReplaySubject, scan, reduce, of } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 
@@ -34,6 +34,36 @@ export class ExerciseGamescore {
     ).subscribe(fs => {
       this.finalScore.set(fs);
     });
+
+    /******************************/
+
+    // Ausblick: Idee von Redux / NgRx
+    of(
+      /*{ name: 'Klaus' },
+      { name: 'Sabine' },
+      { city: 'Leipzig', lang: 'DE' },
+      { lang: 'EN', city: 'London' },
+      { name: 'Anouk' }*/
+       'SETNAMEKLAUS',
+       'SETNAMESABINE',
+       'SETCITYLEIPZIG',
+       'SETCITYLONDON',
+       'SETNAMEANOUK'
+    ).pipe(
+      scan((acc, item) => {
+        switch (item) {
+          case 'SETNAMEKLAUS': return { ...acc, name: 'Klaus' };
+          case 'SETNAMESABINE': return { ...acc, name: 'Sabine' };
+          case 'SETNAMELISA': return { ...acc, name: 'Lisa' };
+          case 'SETCITYLEIPZIG': return { ...acc, city: 'Leipzig', lang: 'DE' };
+          case 'SETCITYLONDON': return { ...acc, city: 'London', lang: 'EN' };
+          default: return acc;
+        }
+      }, { city: 'München', name: 'Ferdinand' })
+    ).subscribe(e => {
+      console.log(e);
+    })
+
 
     /******************************/
 
