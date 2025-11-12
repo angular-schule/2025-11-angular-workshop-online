@@ -3,10 +3,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BookStore } from '../shared/book-store';
 import { Book } from '../shared/book';
 import { filter, map, switchMap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-book-details-page',
-  imports: [RouterLink],
+  imports: [RouterLink, AsyncPipe],
   templateUrl: './book-details-page.html',
   styleUrl: './book-details-page.scss'
 })
@@ -14,17 +15,11 @@ export class BookDetailsPage {
   #route = inject(ActivatedRoute);
   #store = inject(BookStore);
 
-  protected readonly book = signal<Book | undefined>(undefined);
-
-  constructor() {
-    this.#route.paramMap.pipe(
-      map(params => params.get('isbn')),
-      filter(isbn => isbn !== null),
-      switchMap(isbn => this.#store.getSingle(isbn))
-    ).subscribe(book => {
-      this.book.set(book);
-    });
-  }
+  protected readonly book$ = this.#route.paramMap.pipe(
+    map(params => params.get('isbn')),
+    filter(isbn => isbn !== null),
+    switchMap(isbn => this.#store.getSingle(isbn))
+  );
 }
 
 
