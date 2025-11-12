@@ -96,8 +96,18 @@ export class ExerciseCreating {
       sub.next(result);
       sub.next(5);
 
-      setTimeout(() => sub.next(100), 2000)
-      setTimeout(() => sub.complete(), 4000)
+      const t1 = setTimeout(() => sub.next(100), 2000)
+      const t2 = setTimeout(() => {
+        console.log('LAST TIMER')
+        sub.complete()
+      }, 4000)
+
+      // Teardown Logic
+      return () => {
+        console.log('TEARDOWN');
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
     }
 
     // Observer: definiert die Callbacks und empfängt die Daten
@@ -114,7 +124,12 @@ export class ExerciseCreating {
     const myObs$ = new Observable(producer);
 
     // Susbcription: Vertrag zwischen Observer und Observable
-    // myObs$.subscribe(obs);
+    const sub = myObs$.subscribe(obs);
+
+    setTimeout(() => {
+      console.log('UNSUBSCRIBE');
+      sub.unsubscribe();
+    }, 3000);
 
 
     function generateStaticTextDelayed(text: string, timeoutMs: number) {
